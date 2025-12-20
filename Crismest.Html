@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Dot Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background: linear-gradient(to bottom, #0a1128 0%, #1e3a5f 50%, #2a5298 100%);
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100vmin;
+            height: 100vmin;
+            position: relative;
+            max-width: 1080px;
+            max-height: 1080px;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .message {
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 10;
+            animation: fadeIn 2s ease-in;
+            pointer-events: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 0 0 20px #ff0000, 0 0 40px #00ff00;
+            margin-bottom: 15px;
+            animation: colorChange 3s ease-in-out infinite;
+        }
+
+        @keyframes colorChange {
+            0%, 100% { color: #fff; text-shadow: 0 0 20px #ff0000, 0 0 40px #00ff00; }
+            50% { color: #ffd700; text-shadow: 0 0 30px #ffd700, 0 0 50px #ff0000; }
+        }
+
+        p {
+            font-size: 1.2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .surprise-btn {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 40px;
+            font-size: 1.3em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff0000, #00ff00);
+            color: white;
+            border: 3px solid gold;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05); }
+        }
+
+        .surprise-btn:hover {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 8px 30px rgba(255,215,0,0.6);
+        }
+
+        .surprise-btn:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        .firework {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        @keyframes explode {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--x), var(--y)) scale(0);
+            }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <canvas id="canvas"></canvas>
+        
+        <div class="message">
+            <h1 id="mainText">🎄 Merry Christmas! 🎄</h1>
+            <p id="subText">Wishing You Joy & Happiness</p>
+        </div>
+
+        <button class="surprise-btn" id="surpriseBtn">✨ SURPRISE! ✨</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.querySelector('.container');
+        
+        // Set canvas to square aspect ratio
+        const size = Math.min(window.innerWidth, window.innerHeight, 1080);
+        canvas.width = size;
+        canvas.height = size;
+
+        let time = 0;
+        let surpriseMode = false;
+
+        // Particle class for dots
+        class Dot {
+            constructor(x, y, color, size = 2) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.size = size;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        // Snowflakes
+        const snowflakes = [];
+        for (let i = 0; i < 100; i++) {
+            snowflakes.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                speed: Math.random() * 2 + 1,
+                size: Math.random() * 2 + 1,
+                drift: Math.random() * 0.5 - 0.25
+            });
+        }
+
+        // Stars
+        const stars = [];
+        for (let i = 0; i < 80; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height * 0.6,
+                size: Math.random() * 1.5 + 0.5,
+                twinkle: Math.random() * Math.PI * 2
+            });
+        }
+
+        // Create reindeer shape with dots
+        function createReindeer(offsetX, offsetY) {
+            const dots = [];
+            const color = '#8B4513';
+            const scale = canvas.width / 1080;
+            
+            // Body
+            for (let x = 0; x < 50; x += 3) {
+                for (let y = 0; y < 30; y += 3) {
+                    if (Math.sqrt(Math.pow(x - 25, 2) + Math.pow(y - 15, 2)) < 15) {
+                        dots.push(new Dot(x * scale + offsetX, y * scale + offsetY, color, 2 * scale));
+                    }
+                }
+            }
+            
+            // Head
+            for (let x = -20; x < 10; x += 3) {
+                for (let y = 0; y < 25; y += 3) {
+                    if (Math.sqrt(Math.pow(x + 5, 2) + Math.pow(y - 12, 2)) < 12) {
+                        dots.push(new Dot(x * scale + offsetX, y * scale + offsetY, '#A0522D', 2 * scale));
+                    }
+                }
+            }
+            
+            // Antlers
+            for (let y = -15; y < 0; y += 3) {
+                dots.push(new Dot(-8 * scale + offsetX, y * scale + offsetY, '#654321', 2 * scale));
+                dots.push(new Dot(2 * scale + offsetX, y * scale + offsetY, '#654321', 2 * scale));
+            }
+            
+            // Red nose
+            for (let i = 0; i < 8; i++) {
+                const angle = (Math.PI * 2 * i) / 8;
+                dots.push(new Dot(-18 * scale + offsetX + Math.cos(angle) * 4 * scale, 12 * scale + offsetY + Math.sin(angle) * 4 * scale, '#ff0000', 2.5 * scale));
+            }
+            
+            // Legs
+            for (let y = 30; y < 50; y += 3) {
+                dots.push(new Dot(10 * scale + offsetX, y * scale + offsetY, '#654321', 2 * scale));
+                dots.push(new Dot(20 * scale + offsetX, y * scale + offsetY, '#654321', 2 * scale));
+                dots.push(new Dot(30 * scale + offsetX, y * scale + offsetY, '#654321', 2 * scale));
+                dots.push(new Dot(40 * scale + offsetX, y * scale + offsetY, '#654321', 2 * scale));
+            }
+            
+            return dots;
+        }
+
+        // Create sleigh with dots
+        function createSleigh(offsetX, offsetY) {
+            const dots = [];
+            const scale = canvas.width / 1080;
+            
+            // Sleigh body
+            for (let x = 0; x < 120; x += 3) {
+                for (let y = 0; y < 50; y += 3) {
+                    const inBody = (
+                        y > 10 && 
+                        Math.sqrt(Math.pow(x - 60, 2) / 3600 + Math.pow(y - 30, 2) / 400) < 1
+                    );
+                    if (inBody) {
+                        dots.push(new Dot(x * scale + offsetX, y * scale + offsetY, surpriseMode ? '#00ff00' : '#c41e3a', 2 * scale));
+                    }
+                }
+            }
+            
+            // Gold trim
+            for (let x = 5; x < 115; x += 3) {
+                dots.push(new Dot(x * scale + offsetX, 15 * scale + offsetY, '#ffd700', 2.5 * scale));
+                dots.push(new Dot(x * scale + offsetX, 45 * scale + offsetY, '#ffd700', 2.5 * scale));
+            }
+            
+            // Runners
+            for (let x = 0; x < 130; x += 3) {
+                dots.push(new Dot(x * scale + offsetX, 55 * scale + offsetY, '#ffd700', 3 * scale));
+                dots.push(new Dot(x * scale + offsetX, 57 * scale + offsetY, '#ffd700', 2.5 * scale));
+            }
+            
+            return dots;
+        }
+
+        // Create Santa with dots
+        function createSanta(offsetX, offsetY) {
+            const dots = [];
+            const scale = canvas.width / 1080;
+            
+            // Face
+            for (let x = -15; x < 15; x += 2.5) {
+                for (let y = -15; y < 15; y += 2.5) {
+                    if (Math.sqrt(x * x + y * y) < 15) {
+                        dots.push(new Dot(x * scale + offsetX, y * scale + offsetY, '#fdbcb4', 2 * scale));
+                    }
+                }
+            }
+            
+            // Hat
+            for (let x = -18; x < 18; x += 2.5) {
+                for (let y = -35; y < -15; y += 2.5) {
+                    if (Math.abs(x) < 20 - (y + 35) * 0.3) {
+                        dots.push(new Dot(x * scale + offsetX, y * scale + offsetY, surpriseMode ? '#0000ff' : '#ff0000', 2 * scale));
+                    }
+                }
+            }
+            
+            // Hat trim
+            for (let x = -18; x < 18; x += 2.5) {
+                dots.push(new Dot(x * scale + offsetX, (-15) * scale + offsetY, '#ffffff', 2.5 * scale));
+                dots.push(new Dot(x * scale + offsetX, (-13) * scale + offsetY, '#ffffff', 2.5 * scale));
+            }
+            
+            // Hat ball
+            for (let i = 0; i < 20; i++) {
+                const angle = (Math.PI * 2 * i) / 20;
+                dots.push(new Dot((10 + Math.cos(angle) * 6) * scale + offsetX, (-35 + Math.sin(angle) * 6) * scale + offsetY, '#ffffff', 2.5 * scale));
+            }
+            
+            // Beard
+            for (let x = -12; x < 12; x += 2.5) {
+                for (let y = 5; y < 20; y += 2.5) {
+                    if (Math.abs(x) < 15 - (y - 5) * 0.3) {
+                        dots.push(new Dot(x * scale + offsetX, y * scale + offsetY, '#ffffff', 2 * scale));
+                    }
+                }
+            }
+            
+            return dots;
+        }
+
+        // Create gifts with dots
+        function createGifts(offsetX, offsetY) {
+            const dots = [];
+            const scale = canvas.width / 1080;
+            const gifts = [
+                { x: 50, y: 20, size: 25, color: surpriseMode ? '#ff00ff' : '#ff1744' },
+                { x: 30, y: 25, size: 20, color: surpriseMode ? '#00ffff' : '#00e676' },
+                { x: 75, y: 28, size: 18, color: surpriseMode ? '#ffff00' : '#2979ff' }
+            ];
+            
+            gifts.forEach(gift => {
+                // Gift box
+                for (let x = -gift.size/2; x < gift.size/2; x += 3) {
+                    for (let y = -gift.size/2; y < gift.size/2; y += 3) {
+                        dots.push(new Dot((gift.x + x) * scale + offsetX, (gift.y + y) * scale + offsetY, gift.color, 2 * scale));
+                    }
+                }
+                
+                // Ribbon
+                for (let x = -gift.size/2; x < gift.size/2; x += 3) {
+                    dots.push(new Dot((gift.x + x) * scale + offsetX, gift.y * scale + offsetY, '#ffd700', 2.5 * scale));
+                }
+                for (let y = -gift.size/2; y < gift.size/2; y += 3) {
+                    dots.push(new Dot(gift.x * scale + offsetX, (gift.y + y) * scale + offsetY, '#ffd700', 2.5 * scale));
+                }
+            });
+            
+            return dots;
+        }
+
+        // Fireworks function
+        function createFirework(x, y) {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffd700'];
+            const particles = 30;
+            
+            for (let i = 0; i < particles; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                const angle = (Math.PI * 2 * i) / particles;
+                const velocity = 50 + Math.random() * 50;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                firework.style.left = x + 'px';
+                firework.style.top = y + 'px';
+                firework.style.background = color;
+                firework.style.setProperty('--x', Math.cos(angle) * velocity + 'px');
+                firework.style.setProperty('--y', Math.sin(angle) * velocity + 'px');
+                firework.style.animation = 'explode 1s ease-out forwards';
+                
+                container.appendChild(firework);
+                
+                setTimeout(() => firework.remove(), 1000);
+            }
+        }
+
+        // Confetti function
+        function createConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#ffd700'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-20px';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                container.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        // Surprise button functionality
+        document.getElementById('surpriseBtn').addEventListener('click', function() {
+            surpriseMode = !surpriseMode;
+            
+            if (surpriseMode) {
+                // Change text
+                document.getElementById('mainText').textContent = '🎉 HO HO HO! 🎅';
+                document.getElementById('subText').textContent = 'Santa is Here with Magic!';
+                
+                // Create fireworks
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        createFirework(Math.random() * canvas.width, Math.random() * canvas.height * 0.5);
+                    }, i * 200);
+                }
+                
+                // Create confetti
+                createConfetti();
+                
+                this.textContent = '🎄 RESET 🎄';
+                this.style.background = 'linear-gradient(135deg, #0000ff, #ff00ff)';
+            } else {
+                document.getElementById('mainText').textContent = '🎄 Merry Christmas! 🎄';
+                document.getElementById('subText').textContent = 'Wishing You Joy & Happiness';
+                this.textContent = '✨ SURPRISE! ✨';
+                this.style.background = 'linear-gradient(135deg, #ff0000, #00ff00)';
+            }
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            time += 0.01;
+            
+            // Draw stars with twinkling
+            stars.forEach(star => {
+                star.twinkle += 0.05;
+                const opacity = 0.3 + Math.sin(star.twinkle) * 0.7;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.fill();
+            });
+            
+            // Draw and update snowflakes
+            snowflakes.forEach(flake => {
+                ctx.beginPath();
+                ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI * 2);
+                ctx.fillStyle = surpriseMode ? 'rgba(255, 215, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+                ctx.fill();
+                
+                flake.y += flake.speed;
+                flake.x += flake.drift;
+                
+                if (flake.y > canvas.height) {
+                    flake.y = -10;
+                    flake.x = Math.random() * canvas.width;
+                }
+            });
+            
+            // Calculate Santa's position
+            const santaX = -200 + (time * 50) % (canvas.width + 400);
+            const santaY = canvas.height * 0.25 + Math.sin(time * 2) * 30;
+            
+            // Draw reindeer
+            const reindeerDots = createReindeer(santaX - 80, santaY);
+            reindeerDots.forEach(dot => dot.draw());
+            
+            // Draw rope
+            const scale = canvas.width / 1080;
+            for (let x = santaX - 30; x < santaX + 60; x += 5) {
+                ctx.beginPath();
+                ctx.arc(x, santaY + 30 * scale, 1.5 * scale, 0, Math.PI * 2);
+                ctx.fillStyle = '#654321';
+                ctx.fill();
+            }
+            
+            // Draw sleigh
+            const sleighDots = createSleigh(santaX + 60, santaY + 10);
+            sleighDots.forEach(dot => dot.draw());
+            
+            // Draw gifts
+            const giftDots = createGifts(santaX + 60, santaY + 10);
+            giftDots.forEach(dot => {
+                dot.y += Math.sin(time * 3) * 0.3;
+                dot.draw();
+            });
+            
+            // Draw Santa
+            const santaDots = createSanta(santaX + 90, santaY - 10);
+            santaDots.forEach(dot => dot.draw());
+            
+            // Add glow to Rudolph's nose
+            ctx.shadowBlur = 20 * scale;
+            ctx.shadowColor = '#ff0000';
+            ctx.beginPath();
+            ctx.arc(santaX - 98, santaY + 12 * scale, 4 * scale, 0, Math.PI * 2);
+            ctx.fillStyle = '#ff0000';
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            const newSize = Math.min(window.innerWidth, window.innerHeight, 1080);
+            canvas.width = newSize;
+            canvas.height = newSize;
+        });
+    </script>
+</body>
+</html>
