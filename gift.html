@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="si-LK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sankalpa Avurudu Super Gift - සංකල්ප</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset for a clean start */
+        * { box-sizing: border-border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: white;
+            /* Celestial teal-to-copper-gold background, inspired by your images */
+            background: radial-gradient(circle at center, #013A4F 0%, #011E29 50%, #000 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        /* Celestial background elements using pure CSS */
+        .celestial {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image:
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+        }
+
+        /* Branding and wishes at the top */
+        #header {
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .brand-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3.5rem;
+            color: #C8A25D; /* Metallic Copper-Gold */
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .sinhala-text {
+            display: block;
+            margin-top: -10px;
+            font-size: 1.5rem;
+            color: #C8A25D;
+            /* Placeholder for a bold Sinhala style */
+            font-weight: 700;
+        }
+
+        .avurudu-wish {
+            font-size: 1.2rem;
+            margin-top: 15px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* The main game container */
+        #game-area {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Closed and Opened state gift containers */
+        .gift-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 350px;
+            transition: transform 1s ease-in-out;
+        }
+
+        #gift-area[data-opened="true"] .gift-container {
+            transform: scale(0.8);
+        }
+
+        /* The Closed Gift Box - ornate and golden */
+        #closed-box {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background-color: #C8A25D; /* Copper-Gold Base */
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            cursor: pointer; /* Change cursor to pointer for the whole box */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Add explicit style for hover when the box is NOT yet opened */
+        #gift-area[data-opened="false"] #closed-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(200,162,93,0.5);
+        }
+
+        /* Lidded and embossed top layer for the closed box */
+        #closed-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 50%;
+            background-color: #A67D45; /* Darker Gold for Lid */
+            border-radius: 10px 10px 0 0;
+            box-shadow: inset 0 2px 10px rgba(255,255,255,0.3);
+        }
+
+        /* Embossed Mandala pattern conceptual representation */
+        #closed-box::after {
+            content: '';
+            position: absolute;
+            top: 30%; left: 30%; width: 40%; height: 40%;
+            background-image: radial-gradient(circle, #E0C17C 2px, transparent 3px);
+            background-size: 20px 20px;
+            opacity: 0.5;
+        }
+
+        /* The start button */
+        #start-button {
+            margin-top: 30px;
+            padding: 15px 35px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            color: white;
+            background: linear-gradient(to right, #C8A25D, #E0C17C); /* Golden Gradient */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(200,162,93,0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(200,162,93,0.5);
+            background: linear-gradient(to right, #E0C17C, #C8A25D);
+        }
+
+        #start-button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        #start-button:hover::before {
+            left: 100%;
+        }
+
+        /* The Results Area - initially hidden */
+        #results-area {
+            margin-top: 30px;
+            display: none;
+            animation: fadeInUp 1s ease forwards;
+            max-width: 400px;
+            margin-left: auto; margin-right: auto;
+        }
+
+        /* Ornate parchment result scroll/golden note container */
+        .result-item {
+            position: relative;
+            background-color: #E6E1D1; /* Parchment/Cream */
+            color: #011E29; /* Deep Teal text */
+            padding: 30px;
+            border-radius: 10px;
+            border: 5px solid #C8A25D;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            margin-top: -100px;
+        }
+
+        .result-icon {
+            font-size: 3rem;
+            color: #013A4F;
+            margin-bottom: 20px;
+        }
+
+        .result-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            color: #011E29;
+        }
+
+        .result-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .reset-text {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            margin-top: 20px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Spining animation for the box opening */
+        .spinning-box {
+            animation: spinOpening 1s ease-in-out forwards;
+        }
+
+        @keyframes spinOpening {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; visibility: hidden; }
+        }
+
+        /* Opened box representation (initially hidden) */
+        #opened-box {
+            display: none;
+            position: relative;
+            width: 250px; height: 250px;
+            transform: scale(0);
+            transition: transform 0.5s ease-out;
+        }
+
+        /* Sparkles for the box opening using text characters */
+        #sparkles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: #E0C17C;
+            text-shadow: 0 0 10px gold;
+        }
+
+        /* Show the opened content and hide closed content when opened */
+        #gift-area[data-opened="true"] #closed-box { display: none; }
+        #gift-area[data-opened="true"] #opened-box { display: flex; transform: scale(1); animation: fadeInUp 0.5s ease forwards; }
+        #gift-area[data-opened="true"] #start-button { display: none; }
+        #gift-area[data-opened="true"] #results-area { display: block; }
+        #gift-area[data-opened="true"] #sparkles { display: flex; animation: pulse 0.5s ease 2; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.5; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="celestial"></div>
+
+    <div id="header">
+        <div class="brand-name">
+            Sankalpa <span class="sinhala-text">- සංකල්ප -</span>
+        </div>
+        <div class="avurudu-wish">
+            ☀️🌾 <strong style="color:#C8A25D;">ලබන්නා වූ සිංහල සහ දෙමළ අලුත් අවුරුද්ද සාමය, සතුට, නිරෝගීකම පිරි, අලුත් "සංකල්ප" රැසක් යථාර්ථයක් වන, වාසනාවන්ත අවුරුද්දක් වේවා!</strong>
+            <br>
+            ☀️🌾 <strong style="color:#C8A25D;">Wishing you a very Happy Sinhala and Tamil New Year! May this year bring you peace, prosperity, and the inspiration to turn your best concepts into reality.</strong>
+            <br>
+            <span style="font-size:0.9rem; margin-top:10px; display:block;">Welcome to your New Year Gift of Sankalpa! Open your box to discover a unique conceptual insight for the new year. Let the creative journey begin...</span>
+        </div>
+    </div>
+
+    <div id="game-area">
+        <div id="gift-area" data-opened="false">
+            <div class="gift-container">
+                <div id="closed-box" onclick="openGift()"></div>
+
+                <div id="opened-box" style="display:flex; flex-direction:column; align-items:center; justify-content:center; color:#C8A25D; font-size:1.5rem; text-align:center;">
+                    🎁
+                    <div style="font-size:1rem; color:rgba(255,255,255,0.8); margin-top:5px;">A New Year Concept Unlocked!</div>
+                </div>
+
+                <div id="sparkles">✨🌟✨</div>
+
+                <button id="start-button" onclick="openGift()">Open My Avurudu Gift of Sankalpa!</button>
+            </div>
+        </div>
+
+        <div id="results-area">
+            <div id="result-scroll" class="result-item">
+                <div id="result-icon" class="result-icon"></div>
+                <div id="result-title" class="result-title"></div>
+                <div id="result-text" class="result-text"></div>
+            </div>
+            <div class="reset-text" onclick="resetGift()">See another gift concept?</div>
+        </div>
+    </div>
+
+    <script>
+        // Data for the gifts (icons, titles, and text tailored to Sankalpa branding)
+        const prizes = [
+            {
+                iconHtml: '🎼🎵',
+                title: 'Exclusive Sankalpa Music Treasure!',
+                text: 'Congratulations! Enjoy exclusive early access to a new, reimagined track from the <span style="font-weight:600;">\'Manner of Music\'</span> collection. A golden conceptual melody is yours!'
+            },
+            {
+                iconHtml: '📖📜',
+                title: 'Sankalpa Wisdom Scroll: Ancient Secrets',
+                text: 'Unlock a curated collection of unique, <span style="font-weight:600;">hidden Sinhalese \'Manopara\' stories and ancient folktales</span>. Discover the wisdom of concepts passed down through generations.'
+            },
+            {
+                iconHtml: '🌟✨',
+                title: 'Celestial Avurudu Inspiration Blessing!',
+                text: 'May your path be clear and your heart inspired. <span style="font-weight:600;">A celestial golden note of artistic luck</span> has been woven into your destiny for the new year! New concepts will flow freely.'
+            },
+            {
+                iconHtml: '🎓🧠 compass',
+                title: 'The \'Mind & Melody\' Blueprint Guide',
+                text: 'You have unlocked a specialized, <span style="font-weight:600;">curated study tips and knowledge management guide</span>, paired with focus-enhancing music tracks. Achieve knowledge and artistry together.'
+            },
+            {
+                iconHtml: '🖋️⚙️',
+                title: 'A New Sankalpa: Your First Creative Concept',
+                text: 'The new year is a clean slate. Your gift is a <span style="font-weight:600;">special conceptualization starter guide</span>. A unique blueprint to beginning your own creative journey. Start now!'
+            },
+            {
+                iconHtml: '🍪🌾 pot pana pana',
+                title: 'The Golden \'Keum\' Prosperity Blessing',
+                text: 'May the new year bring you as much sweet success as a traditional <span style="font-weight:600;">\'Avurudu Keum\'</span>. A unique conceptual pot of traditional prosperity awaits!'
+            }
+        ];
+
+        let giftOpened = false;
+
+        // Function to handle the gift opening
+        function openGift() {
+            if (giftOpened) return; // Prevent double clicking during animation
+            giftOpened = true;
+
+            const giftArea = document.getElementById('gift-area');
+            const closedBox = document.getElementById('closed-box');
+            // Check existence before manipulating in case of fast clicks during animations
+            const startButton = document.getElementById('start-button'); 
+
+            // 1. Play closed box spin/fade-out animation
+            if (closedBox) {
+                closedBox.classList.add('spinning-box');
+            }
+
+            // 2. Play sparkle/opened box animation and reveal result after a short delay
+            setTimeout(() => {
+                giftArea.setAttribute('data-opened', 'true');
+
+                // Generate random result
+                const randomIndex = Math.floor(Math.random() * prizes.length);
+                const selectedPrize = prizes[randomIndex];
+
+                // Populate results DOM
+                document.getElementById('result-icon').innerHTML = selectedPrize.iconHtml;
+                document.getElementById('result-title').textContent = selectedPrize.title;
+                document.getElementById('result-text').innerHTML = selectedPrize.text;
+
+            }, 900); // Trigger result slightly before box fully vanishes
+        }
+
+        // Function to reset the game state
+        function resetGift() {
+            giftOpened = false;
+            const giftArea = document.getElementById('gift-area');
+            const closedBox = document.getElementById('closed-box');
+
+            if (giftArea && closedBox) {
+                giftArea.setAttribute('data-opened', 'false');
+                closedBox.classList.remove('spinning-box');
+            }
+        }
+    </script>
+</body>
+</html>
