@@ -3,395 +3,485 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sankalpa Avurudu Super Gift - සංකල්ප</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <title>Premium New Year Gifts - සිරිත් විරිත් අවුරුදු තෑගි</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Reset for a clean start */
-        * { box-sizing: border-border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #FFD700;
+            --secondary: #FF4D00;
+            --accent: #D4AF37;
+            --dark: #1A0A00;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --font-main: 'Outfit', sans-serif;
+            --font-si: 'Noto Sans Sinhala', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
         body {
-            font-family: 'Open Sans', sans-serif;
-            color: white;
-            /* Celestial teal-to-copper-gold background, inspired by your images */
-            background: radial-gradient(circle at center, #013A4F 0%, #011E29 50%, #000 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            background-color: var(--dark);
+            background-image: 
+                radial-gradient(circle at 50% 50%, #3d1400 0%, #1A0A00 100%);
+            font-family: var(--font-main);
+            color: #fff;
             min-height: 100vh;
             overflow-x: hidden;
-            padding: 20px;
-        }
-
-        /* Celestial background elements using pure CSS */
-        .celestial {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background-image:
-                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
-            background-size: 550px 550px, 350px 350px, 250px 250px;
-            background-position: 0 0, 40px 60px, 130px 270px;
-        }
-
-        /* Branding and wishes at the top */
-        #header {
-            text-align: center;
-            margin-bottom: 40px;
-            max-width: 600px;
-        }
-
-        .brand-name {
-            font-family: 'Oswald', sans-serif;
-            font-size: 3.5rem;
-            color: #C8A25D; /* Metallic Copper-Gold */
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-
-        .sinhala-text {
-            display: block;
-            margin-top: -10px;
-            font-size: 1.5rem;
-            color: #C8A25D;
-            /* Placeholder for a bold Sinhala style */
-            font-weight: 700;
-        }
-
-        .avurudu-wish {
-            font-size: 1.2rem;
-            margin-top: 15px;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        /* The main game container */
-        #game-area {
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            position: relative;
-        }
-
-        /* Closed and Opened state gift containers */
-        .gift-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 350px;
-            transition: transform 1s ease-in-out;
+            justify-content: flex-start;
         }
 
-        #gift-area[data-opened="true"] .gift-container {
-            transform: scale(0.8);
-        }
-
-        /* The Closed Gift Box - ornate and golden */
-        #closed-box {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            background-color: #C8A25D; /* Copper-Gold Base */
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            cursor: pointer; /* Change cursor to pointer for the whole box */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        /* Add explicit style for hover when the box is NOT yet opened */
-        #gift-area[data-opened="false"] #closed-box:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(200,162,93,0.5);
-        }
-
-        /* Lidded and embossed top layer for the closed box */
-        #closed-box::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
+        /* Decorative Background */
+        .bg-decor {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 50%;
-            background-color: #A67D45; /* Darker Gold for Lid */
-            border-radius: 10px 10px 0 0;
-            box-shadow: inset 0 2px 10px rgba(255,255,255,0.3);
-        }
-
-        /* Embossed Mandala pattern conceptual representation */
-        #closed-box::after {
-            content: '';
-            position: absolute;
-            top: 30%; left: 30%; width: 40%; height: 40%;
-            background-image: radial-gradient(circle, #E0C17C 2px, transparent 3px);
-            background-size: 20px 20px;
-            opacity: 0.5;
-        }
-
-        /* The start button */
-        #start-button {
-            margin-top: 30px;
-            padding: 15px 35px;
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.4rem;
-            text-transform: uppercase;
-            color: white;
-            background: linear-gradient(to right, #C8A25D, #E0C17C); /* Golden Gradient */
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(200,162,93,0.3);
-            transition: all 0.3s ease;
-            position: relative;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
             overflow: hidden;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        #start-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(200,162,93,0.5);
-            background: linear-gradient(to right, #E0C17C, #C8A25D);
-        }
-
-        #start-button::before {
-            content: '';
+        .bloom {
             position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: 0.5s;
+            background: radial-gradient(circle, rgba(255, 77, 0, 0.15) 0%, transparent 70%);
+            width: 600px;
+            height: 600px;
+            filter: blur(50px);
+            animation: float 20s infinite alternate;
         }
 
-        #start-button:hover::before {
-            left: 100%;
+        @keyframes float {
+            0% { transform: translate(-10%, -10%); }
+            100% { transform: translate(10%, 10%); }
         }
 
-        /* The Results Area - initially hidden */
-        #results-area {
-            margin-top: 30px;
-            display: none;
-            animation: fadeInUp 1s ease forwards;
-            max-width: 400px;
-            margin-left: auto; margin-right: auto;
+        /* Header Section */
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            opacity: 0;
+            animation: fadeInDown 1s forwards ease-out;
         }
 
-        /* Ornate parchment result scroll/golden note container */
-        .result-item {
-            position: relative;
-            background-color: #E6E1D1; /* Parchment/Cream */
-            color: #011E29; /* Deep Teal text */
-            padding: 30px;
-            border-radius: 10px;
-            border: 5px solid #C8A25D;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            margin-top: -100px;
-        }
-
-        .result-icon {
-            font-size: 3rem;
-            color: #013A4F;
-            margin-bottom: 20px;
-        }
-
-        .result-title {
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.8rem;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            color: #011E29;
-        }
-
-        .result-text {
-            font-size: 1rem;
-            line-height: 1.6;
+        .title-si {
+            font-family: var(--font-si);
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(to bottom, #FFF, #BC9741);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
         }
 
-        .reset-text {
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.7);
-            margin-top: 20px;
+        .title-en {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        /* Gift Box Initial Landing */
+        #gift-landing {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .gift-box-container {
             cursor: pointer;
-            text-decoration: underline;
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gift-box-container:hover {
+            transform: scale(1.1);
+        }
+
+        .gift-box-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.4));
+        }
+
+        .gift-label {
+            margin-top: 20px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            color: var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* Wishes Interface */
+        #wishes-interface {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+            padding: 40px 20px;
+        }
+
+        .wishes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .wish-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .wish-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .wish-card:hover {
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .wish-card::before {
+            content: '✿';
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.05;
+        }
+
+        .si-content {
+            font-family: var(--font-si);
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #fff;
+            font-weight: 400;
+        }
+
+        .en-content {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            color: #000;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .copy-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.98);
         }
 
         /* Animations */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Spining animation for the box opening */
-        .spinning-box {
-            animation: spinOpening 1s ease-in-out forwards;
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
         }
 
-        @keyframes spinOpening {
-            0% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
-            100% { transform: scale(0) rotate(360deg); opacity: 0; visibility: hidden; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
         }
 
-        /* Opened box representation (initially hidden) */
-        #opened-box {
-            display: none;
-            position: relative;
-            width: 250px; height: 250px;
-            transform: scale(0);
-            transition: transform 0.5s ease-out;
+        .explode {
+            animation: explode 0.8s forwards;
         }
 
-        /* Sparkles for the box opening using text characters */
-        #sparkles {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            font-size: 3rem;
-            color: #E0C17C;
-            text-shadow: 0 0 10px gold;
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.8; filter: brightness(2); }
+            100% { transform: scale(0); opacity: 0; }
         }
 
-        /* Show the opened content and hide closed content when opened */
-        #gift-area[data-opened="true"] #closed-box { display: none; }
-        #gift-area[data-opened="true"] #opened-box { display: flex; transform: scale(1); animation: fadeInUp 0.5s ease forwards; }
-        #gift-area[data-opened="true"] #start-button { display: none; }
-        #gift-area[data-opened="true"] #results-area { display: block; }
-        #gift-area[data-opened="true"] #sparkles { display: flex; animation: pulse 0.5s ease 2; }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.5); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.5; }
+        /* Custom Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #fff;
+            color: #000;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
+        .toast.active {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .title-si { font-size: 2rem; }
+            .gift-box-container { width: 220px; height: 220px; }
+            .wishes-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <div class="celestial"></div>
 
-    <div id="header">
-        <div class="brand-name">
-            Sankalpa <span class="sinhala-text">- සංකල්ප -</span>
+    <div class="bg-decor">
+        <div class="bloom" style="top: 10%; left: 10%;"></div>
+        <div class="bloom" style="bottom: 10%; right: 10%; background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);"></div>
+    </div>
+
+    <header id="main-header">
+        <h1 class="title-si">සුබ අලුත් අවුරුද්දක් වේවා!</h1>
+        <p class="title-en">Happy Sinhala & Tamil New Year</p>
+    </header>
+
+    <div id="gift-landing">
+        <div class="gift-box-container" onclick="openGift()">
+            <!-- Using the generated image -->
+            <img src="gift_box.png" alt="Gift Box" class="gift-box-image" id="mystery-box">
         </div>
-        <div class="avurudu-wish">
-            ☀️🌾 <strong style="color:#C8A25D;">ලබන්නා වූ සිංහල සහ දෙමළ අලුත් අවුරුද්ද සාමය, සතුට, නිරෝගීකම පිරි, අලුත් "සංකල්ප" රැසක් යථාර්ථයක් වන, වාසනාවන්ත අවුරුද්දක් වේවා!</strong>
-            <br>
-            ☀️🌾 <strong style="color:#C8A25D;">Wishing you a very Happy Sinhala and Tamil New Year! May this year bring you peace, prosperity, and the inspiration to turn your best concepts into reality.</strong>
-            <br>
-            <span style="font-size:0.9rem; margin-top:10px; display:block;">Welcome to your New Year Gift of Sankalpa! Open your box to discover a unique conceptual insight for the new year. Let the creative journey begin...</span>
+        <div class="gift-label" id="gift-instruction">මෙතැනින් ඔබේ තෑග්ග විවෘත කරන්න</div>
+    </div>
+
+    <div id="wishes-interface">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <p style="color: var(--primary); font-size: 1.1rem; font-family: var(--font-si);">ඔබ වෙනුවෙන් සැකසූ සුවිශේෂී ප්‍රාර්ථනා 20ක්</p>
+        </div>
+        <div class="wishes-grid" id="wishes-grid">
+            <!-- Wishes will be injected here -->
+        </div>
+        <div style="text-align: center; margin-top: 50px; padding-bottom: 100px;">
+            <button onclick="location.reload()" style="background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 12px 30px; border-radius: 50px; cursor: pointer; font-family: var(--font-si);">නැවත විවෘත කරන්න</button>
         </div>
     </div>
 
-    <div id="game-area">
-        <div id="gift-area" data-opened="false">
-            <div class="gift-container">
-                <div id="closed-box" onclick="openGift()"></div>
+    <div id="toast" class="toast">අවස්ථාව පිටපත් කළා! - Copied!</div>
 
-                <div id="opened-box" style="display:flex; flex-direction:column; align-items:center; justify-content:center; color:#C8A25D; font-size:1.5rem; text-align:center;">
-                    🎁
-                    <div style="font-size:1rem; color:rgba(255,255,255,0.8); margin-top:5px;">A New Year Concept Unlocked!</div>
-                </div>
-
-                <div id="sparkles">✨🌟✨</div>
-
-                <button id="start-button" onclick="openGift()">Open My Avurudu Gift of Sankalpa!</button>
-            </div>
-        </div>
-
-        <div id="results-area">
-            <div id="result-scroll" class="result-item">
-                <div id="result-icon" class="result-icon"></div>
-                <div id="result-title" class="result-title"></div>
-                <div id="result-text" class="result-text"></div>
-            </div>
-            <div class="reset-text" onclick="resetGift()">See another gift concept?</div>
-        </div>
-    </div>
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
-        // Data for the gifts (icons, titles, and text tailored to Sankalpa branding)
-        const prizes = [
-            {
-                iconHtml: '🎼🎵',
-                title: 'Exclusive Sankalpa Music Treasure!',
-                text: 'Congratulations! Enjoy exclusive early access to a new, reimagined track from the <span style="font-weight:600;">\'Manner of Music\'</span> collection. A golden conceptual melody is yours!'
+        const wishes = [
+            { 
+                si: "ලැබුවා වූ සිංහල සහ දෙමළ අලුත් අවුරුද්ද ඔබගේ සියලු බලාපොරොත්තු ඉටු කෙරෙන, පවුලේ සැමට සාමය සහ සතුට සපිරි, නිරෝගී වාසනාවන්ත වසරක් වේවායි හදවතින්ම ප්‍රාර්ථනා කරමි!", 
+                en: "As we welcome the Sinhala and Tamil New Year, I heartfully wish that all your aspirations and dreams come to fruition. May this new chapter bring boundless peace, joy, and robust health to you and your entire family." 
             },
-            {
-                iconHtml: '📖📜',
-                title: 'Sankalpa Wisdom Scroll: Ancient Secrets',
-                text: 'Unlock a curated collection of unique, <span style="font-weight:600;">hidden Sinhalese \'Manopara\' stories and ancient folktales</span>. Discover the wisdom of concepts passed down through generations.'
+            { 
+                si: "කොවුල් නාදයත් සමඟ උදාවන මේ අසිරිමත් අලුත් අවුරුද්දේ, ඔබගේ ජීවිතයේ සියලු කරදර බාධක දුරුවී, සෞභාග්‍යයේ දොරටු විවර කරමින්, නව දැක්මකින් යුතුව ඉදිරියටම යෑමට ශක්තිය ධෛර්යය ලැබේවා!", 
+                en: "With the melodious song of the Koha signaling a fresh start, may this auspicious New Year dissolve every obstacle in your path. May it open the doors of prosperity and empower you with the vision and courage to stride forward into a brilliant future." 
             },
-            {
-                iconHtml: '🌟✨',
-                title: 'Celestial Avurudu Inspiration Blessing!',
-                text: 'May your path be clear and your heart inspired. <span style="font-weight:600;">A celestial golden note of artistic luck</span> has been woven into your destiny for the new year! New concepts will flow freely.'
+            { 
+                si: "සූර්යයා මීන රාශියෙන් මේෂ රාශියට සංක්‍රමණය වන්නා සේම, ඔබේ ජීවිතය ද නව ආලෝකයකින් සහ නව ජවයකින් ආලෝකමත් වේවා! අලුත් සිතුවිලි සහ අලුත් අරමුණු සමඟ සාර්ථකත්වයේ හිනිපෙත්තටම යෑමට මේ වසරේ ඔබට වරම් ලැබේවා!", 
+                en: "Just as the sun transitions into Aries bringing light to the world, may your life be illuminated with fresh energy and divine radiance. May this year grant you the grace to reach the pinnacle of success with new thoughts and purposeful goals." 
             },
-            {
-                iconHtml: '🎓🧠 compass',
-                title: 'The \'Mind & Melody\' Blueprint Guide',
-                text: 'You have unlocked a specialized, <span style="font-weight:600;">curated study tips and knowledge management guide</span>, paired with focus-enhancing music tracks. Achieve knowledge and artistry together.'
+            { 
+                si: "එරබදු මල් සිනහ සලන මේ සුන්දර වසන්තයේ, ඔබේ නිවසත් සිනහවෙන් සහ සතුටෙන් පිරී පවතීවා! කරුණාව, දයාව සහ මනුෂ්‍යත්වය පෙරදැරි කරගත් අර්ථාන්විත සුබ අලුත් අවුරුද්දක් ඔබටත් ඔබේ ආදරණීයයන්ටත් හිමිවේවා!", 
+                en: "In this beautiful spring where the Erabadu flowers bloom with joy, may your home be filled with laughter and warmth. Wishing you and your loved ones a meaningful New Year rooted in kindness, compassion, and shared humanity." 
             },
-            {
-                iconHtml: '🖋️⚙️',
-                title: 'A New Sankalpa: Your First Creative Concept',
-                text: 'The new year is a clean slate. Your gift is a <span style="font-weight:600;">special conceptualization starter guide</span>. A unique blueprint to beginning your own creative journey. Start now!'
+            { 
+                si: "පරණ වසරේ මතකයන් පසෙකලා, අලුත් බලාපොරොත්තු පොදියක් සමඟින් උදාවන මේ වාසනාවන්ත නව වසරේ, ඔබේ ජීවිතයට නව්‍යතාවයක් සහ සැබෑ සැනසීමක් උදා කර ගැනීමට අවශ්‍ය ශක්තිය නොඅඩුව ලැබේවායි පතමි!", 
+                en: "Leaving behind the memories of the past, as you embrace a bundle of new hopes this fortunate New Year, I pray that you find the unwavering strength to bring novelty and true serenity into every aspect of your life." 
             },
-            {
-                iconHtml: '🍪🌾 pot pana pana',
-                title: 'The Golden \'Keum\' Prosperity Blessing',
-                text: 'May the new year bring you as much sweet success as a traditional <span style="font-weight:600;">\'Avurudu Keum\'</span>. A unique conceptual pot of traditional prosperity awaits!'
+            { 
+                si: "කෙවුම්, කොකිස් සහ අතිරස සුවඳින් පිරි මේ සොඳුරු අවුරුදු සමයේ, ඔබේ ජීවිතය ද ඒ හා සමාන මිහිරියාවකින් සහ මිත්‍රශීලී බැඳීම්වලින් වර්ණවත් වේවා! පවුලේ සමගිය සහ සාමූහිකත්වය රජයන සුබ අලුත් අවුරුද්දක් වේවා!", 
+                en: "In this festive season filled with the sweet aroma of traditional treats, may your life be equally colored with sweetness and meaningful bonds. Wishing you a New Year where family harmony and togetherness reign supreme." 
+            },
+            { 
+                si: "ලබන්නා වූ නව වසර ඔබගේ ව්‍යාපාරික කටයුතු සහ වෘත්තීය ජීවිතය සාර්ථකත්වයෙන් සාර්ථකත්වයට පත් කරන, ආර්ථික සෞභාග්‍යය සහ පෞද්ගලික දියුණුව නොඅඩුව උදා කරන පින්බර වසරක් වේවායි ප්‍රාර්ථනා කරමි!", 
+                en: "May the dawn of this New Year propel your career and business to new heights of success. Wishing you a year of immense economic prosperity, personal growth, and spiritual fulfillment in every endeavor." 
+            },
+            { 
+                si: "අහස පුරා පිපිරෙන ගිනිකෙළි මෙන් ඔබේ ජීවිතයේ සතුට ද හැමතැනම විහිදී යත්වා! නිරෝගී සුවය උතුම්ම ධනය ලෙස සලකා, කය සහ මනස සුවපත් වන වාසනාවන්ත සුබ අලුත් අවුරුද්දක් ඔබ සැමට හිමිවේවා!", 
+                en: "May the happiness in your life scatter far and wide like the fireworks lighting up the night sky. May you enjoy the ultimate wealth of good health, finding peace and healing for both your body and soul this New Year." 
+            },
+            { 
+                si: "අලුත් ඇඳුම්වලින් හැඩවෙන, නැවුම් හැඟීම්වලින් පිරෙන මේ සැණකෙළි සමයේ, ඔබේ හදවතේ තැන්පත් වී ඇති සියලු සුබ සිහින සැබෑ කර ගැනීමට සොබාදහමේ ආශිර්වාදය නොඅඩුව ලැබේවායි මුළු හදවතින්ම පතමි!", 
+                en: "In this season of renewal and celebration, may the blessings of nature empower you to manifest every positive dream held in your heart. May your spirit be as vibrant as the festive attire of the season." 
+            },
+            { 
+                si: "පැරණි අමනාපකම් දුරු කරමින්, නැවුම් මිත්‍රත්වයේ දෑත් දිගු කරන මේ සුබ මොහොතේ, ඔබ සැමට සාමය සහ සහජීවනය පිරි වාසනාවන්ත වසරක් වේවා! මුළු ලෝකයම ආදරයෙන් වැළඳ ගන්නා බෝධිසත්ව ගුණ පිරි වසරක් වේවා!", 
+                en: "As we bridge old divides and extend the hand of friendship, may this auspicious moment usher in a year of peace and coexistence. Wishing you a year filled with the noble qualities of love and universal brotherhood." 
+            },
+            { 
+                si: "ලිප ගිනි දල්වන නැකතින් ආරම්භ වන ඔබේ නව වසරේ, අතමිට සරුසාර වී, ධන ධාන්‍යයෙන් පිරී ඉතිරී යන සෞභාග්‍යමත් කාල පරිච්ඡේදයක ආරම්භය සනිටුහන් වේවායි මම ඉතසිතින් ප්‍රාර්ථනා කරමි!", 
+                en: "As the hearth is lit at the auspicious hour, marking the beginning of a fresh start, may it symbolize the commencement of a prosperous era where your life overflows with abundance, wealth, and lasting success." 
+            },
+            { 
+                si: "වැඩිහිටියන්ට බුලත් දී වැඳ ආචාර කරන මේ සම්ප්‍රදායික අවුරුද්දේ, ඔබටත් වැඩිහිටි ආශිර්වාදය සහ මඟපෙන්වීම නිරතුරුවම ලැබේවා! ගව කරුණාව සහ සත්ත්ව දයාව පිරි උතුම් මිනිසෙකු ලෙස ජීවත් වීමට වාසනාව ලැබේවා!", 
+                en: "In this traditional year of honoring elders with betel leaves, may you be continuously guided by their wisdom and blessings. May you find the fortune to live as a noble human being, radiating kindness and mercy to all living beings." 
+            },
+            { 
+                si: "ඔබේ අධ්‍යාපනික කටයුතු සහ දැනුම සොයා යන ගමනට නව වසර නව මාවත් විවර කරත්වා! බුද්ධිය සහ ප්‍රඥාව පෙරදැරි කරගෙන ඕනෑම අභියෝගයකට මුහුණ දීමේ ශක්තිය ලැබෙන ජයග්‍රාහී සුබ නව වසරක් වේවා!", 
+                en: "May the New Year open golden pathways for your academic pursuits and your quest for knowledge. Wishing you a victorious year where wisdom and intellect empower you to overcome any challenge with confidence." 
+            },
+            { 
+                si: "සොබාදහමේ අපූර්වත්වය විඳිමින්, ගහ කොළ සමඟ බැඳී සිටින මේ අසිරිමත් අවුරුදු සමයේ, පරිසරයට ආදරය කරන සහ පරිසරය ආරක්ෂා කරන යහපත් පුරවැසියෙකු ලෙස බැබළෙන්නට ඔබට ශක්තිය ලැබේවායි පතමි!", 
+                en: "While enjoying the unique beauty of nature this festive season, may you be inspired to live as a conscious citizen who loves and protects our environment. Wishing you a year of harmony with the world around you." 
+            },
+            { 
+                si: "ඔබේ කලාත්මක හැකියාවන් සහ නිර්මාණශීලීත්වය ලොවටම පෙන්වීමට ලැබෙන වසරක් වේවා! අලුත් අදහස් සහ අලුත් නිපැයුම් සමඟින් ලෝකයම මවිත කරන සාර්ථක නිර්මාණකරුවෙකු වීමට මේ නව වසර ඔබට වරම් දේවා!", 
+                en: "May this be the year where your artistic talents and creative spirit shine brightly for the whole world to see. Wishing you the grace to become a successful creator, amazing everyone with your fresh ideas and innovations." 
+            },
+            { 
+                si: "දුක, කඳුළ සහ වේදනාව පහව ගොස්, ඔබේ ජීවිතය සිනහවෙන් සහ ප්‍රීති ප්‍රමෝදයෙන් පිරී යන, වාසනාවන්ත දෙව්ලොවක් බඳු අසිරිමත් සුබ අලුත් අවුරුද්දක් ඔබ සැමට උදා වේවායි හදවතින්ම පතමි!", 
+                en: "I heartfully pray that all sorrow and pain dissipate, leaving your life filled with laughter and immense delight. May this New Year be as wonderful as a celestial paradise for you and those you cherish." 
+            },
+            { 
+                si: "රටේ සාමය සහ ආරක්ෂාව රජයන, ජාති ආගම් භේදයෙන් තොරව සමගියෙන් ජීවත් විය හැකි, සැබෑ නිදහස භුක්ති විඳින වාසනාවන්ත නව වසරක් රටටත් ලෝකයටත් උදා වේවායි මහත් සේ පතමි!", 
+                en: "I fervently hope for a New Year where national peace and security prevail, and where we can all live in unity regardless of race or religion. May a year of true freedom dawn upon our nation and the entire world." 
+            },
+            { 
+                si: "ඔබේ හෘද සාක්ෂියට එකඟව, අවංකව සහ සෘජුව ජීවත් වීමට අවශ්‍ය ධෛර්යය ලැබෙන, තමන්ගේ සහ අනුන්ගේ ගෞරවය සුරකින උතුම් ගතිපැවතුම්වලින් පිරි සුබ අලුත් අවුරුද්දක් ඔබට හිමිවේවා!", 
+                en: "May you be blessed with a New Year filled with noble conduct, where you find the courage to live honestly and with integrity, respecting both your self-worth and the dignity of others at all times." 
+            },
+            { 
+                si: "උතුරා යන කිරි කළයක් සේ ඔබේ ජීවිතය ද සම්පතින් සහ සෞභාග්‍යයෙන් උතුරා යන, කිසිදු අඩුවක් නැති සර්වප්‍රකාරයෙන්ම සර්ව සම්පූර්ණ අද්විතීය අලුත් අවුරුද්දක් වේවායි ප්‍රාර්ථනා කරමි!", 
+                en: "Just like an overflowing pot of milk symbolizing abundance, may your life overflow with prosperity and wealth. Wishing you a uniquely perfect and complete New Year, free from any lack or want." 
+            },
+            { 
+                si: "ඔබේ සෑම අඩියක්ම ඉදිරියටම තැබෙන, සාර්ථකත්වයේ මල් පාරක් දිගේ ඇවිද යන, සතුටේ සහ සැනසීමේ උල්පතක් බඳු වූ සැබෑම අර්ථාන්විත සුබ අලුත් අවුරුද්දක් ඔබටත් ඔබේ පවුලේ සැමටත් හිමිවේවා!", 
+                en: "Wishing you and your family a truly meaningful New Year that serves as a fountain of happiness and solace. May every step you take be a forward stride along a flowery path of resounding success." 
             }
         ];
 
-        let giftOpened = false;
-
-        // Function to handle the gift opening
-        function openGift() {
-            if (giftOpened) return; // Prevent double clicking during animation
-            giftOpened = true;
-
-            const giftArea = document.getElementById('gift-area');
-            const closedBox = document.getElementById('closed-box');
-            // Check existence before manipulating in case of fast clicks during animations
-            const startButton = document.getElementById('start-button'); 
-
-            // 1. Play closed box spin/fade-out animation
-            if (closedBox) {
-                closedBox.classList.add('spinning-box');
-            }
-
-            // 2. Play sparkle/opened box animation and reveal result after a short delay
-            setTimeout(() => {
-                giftArea.setAttribute('data-opened', 'true');
-
-                // Generate random result
-                const randomIndex = Math.floor(Math.random() * prizes.length);
-                const selectedPrize = prizes[randomIndex];
-
-                // Populate results DOM
-                document.getElementById('result-icon').innerHTML = selectedPrize.iconHtml;
-                document.getElementById('result-title').textContent = selectedPrize.title;
-                document.getElementById('result-text').innerHTML = selectedPrize.text;
-
-            }, 900); // Trigger result slightly before box fully vanishes
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('active');
+            setTimeout(() => toast.classList.remove('active'), 2500);
         }
 
-        // Function to reset the game state
-        function resetGift() {
-            giftOpened = false;
-            const giftArea = document.getElementById('gift-area');
-            const closedBox = document.getElementById('closed-box');
+        function copyWish(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast();
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✓ Copied';
+                btn.style.background = '#4CAF50';
+                btn.style.color = '#fff';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }, 2000);
+            });
+        }
 
-            if (giftArea && closedBox) {
-                giftArea.setAttribute('data-opened', 'false');
-                closedBox.classList.remove('spinning-box');
-            }
+        function openGift() {
+            const box = document.getElementById('mystery-box');
+            const landing = document.getElementById('gift-landing');
+            const instruction = document.getElementById('gift-instruction');
+            const header = document.getElementById('main-header');
+            const wishesInterface = document.getElementById('wishes-interface');
+            const grid = document.getElementById('wishes-grid');
+
+            // 1. Shake animation
+            box.parentElement.classList.add('shake');
+            
+            setTimeout(() => {
+                // 2. Confetti effect
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#FFD700', '#FF4D00', '#D4AF37', '#ffffff']
+                });
+
+                // 3. Explode animation
+                box.classList.add('explode');
+                instruction.style.opacity = '0';
+                
+                setTimeout(() => {
+                    landing.style.display = 'none';
+                    wishesInterface.style.display = 'block';
+                    
+                    // Generate cards
+                    wishes.forEach((wish, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'wish-card';
+                        card.innerHTML = `
+                            <div class="si-content">${wish.si}</div>
+                            <div class="en-content">${wish.en}</div>
+                            <button class="copy-btn" onclick="copyWish('${wish.si}\\n${wish.en}', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                Copy Wish
+                            </button>
+                        `;
+                        grid.appendChild(card);
+                        
+                        // Staggered animation
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, index * 100);
+                    });
+                }, 600);
+            }, 500);
         }
     </script>
 </body>
