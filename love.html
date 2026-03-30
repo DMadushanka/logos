@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="si">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>සංකල්ප - අපරිමිත සෙනෙහස ❤️</title>
     <!-- Modern Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Abhaya+Libre:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Abhaya+Libre:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --bg-color: #0d0106;
@@ -46,17 +49,25 @@
 
         .overlay {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.8) 100%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 20%, rgba(0, 0, 0, 0.8) 100%);
             z-index: 1;
             transition: opacity 1s ease;
         }
 
-        body.dark-mode .overlay { opacity: 0; }
+        body.dark-mode .overlay {
+            opacity: 0;
+        }
 
         #particles-canvas {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 2;
         }
@@ -98,9 +109,11 @@
 
         .heart-aura {
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            width: 120%; height: 120%;
+            width: 120%;
+            height: 120%;
             background: radial-gradient(circle, var(--primary-glow), transparent 70%);
             border-radius: 50%;
             animation: pulse-aura 3s infinite ease-in-out;
@@ -108,13 +121,31 @@
         }
 
         @keyframes beat {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--primary)); }
-            50% { transform: scale(1.1); filter: drop-shadow(0 0 30px var(--primary)); }
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 10px var(--primary));
+            }
+
+            50% {
+                transform: scale(1.1);
+                filter: drop-shadow(0 0 30px var(--primary));
+            }
         }
 
         @keyframes pulse-aura {
-            0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.4); }
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: translate(-50%, -50%) scale(1.4);
+            }
         }
 
         /* Mystery Card */
@@ -184,8 +215,15 @@
         }
 
         @keyframes breathe {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.8; }
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
         }
 
         .btn {
@@ -220,8 +258,10 @@
         /* Gallery Section Overlay */
         .gallery-section {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(13, 1, 6, 0.98);
             backdrop-filter: blur(25px);
             z-index: 2000;
@@ -238,8 +278,15 @@
         }
 
         @keyframes fadeInReveal {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .gallery-grid {
@@ -305,7 +352,8 @@
 
         .back-to-home {
             position: fixed;
-            top: 30px; right: 30px;
+            top: 30px;
+            right: 30px;
             z-index: 2100;
             background: var(--primary);
             border: none;
@@ -319,7 +367,8 @@
 
         .toast {
             position: fixed;
-            bottom: 40px; left: 50%;
+            bottom: 40px;
+            left: 50%;
             transform: translateX(-50%);
             background: #00c853;
             color: white;
@@ -332,12 +381,17 @@
             pointer-events: none;
         }
 
-        .toast.show { opacity: 1; bottom: 60px; }
+        .toast.show {
+            opacity: 1;
+            bottom: 60px;
+        }
 
         .reveal-bg {
             position: fixed;
-            top: 50%; left: 50%;
-            width: 0; height: 0;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
             background: var(--primary);
             border-radius: 50%;
             transform: translate(-50%, -50%);
@@ -345,12 +399,41 @@
             opacity: 0;
             transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .reveal-bg.active { width: 300vmax; height: 300vmax; opacity: 0.05; }
+
+        .reveal-bg.active {
+            width: 300vmax;
+            height: 300vmax;
+            opacity: 0.05;
+        }
+
+        /* Silhouette Ornament */
+        .silhouette-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 800px;
+            height: clamp(300px, 60vh, 600px);
+            background: url('romantic_silhouette_webp_1774846820278.png') no-repeat bottom center;
+            background-size: contain;
+            opacity: 0.4;
+            mix-blend-mode: multiply;
+            pointer-events: none;
+            z-index: 5;
+            transition: opacity 1s ease, transform 1.5s ease-out;
+        }
+
+        body.dark-mode .silhouette-overlay {
+            opacity: 0;
+            transform: translateX(-50%) translateY(50px);
+        }
 
         /* Magic Reset Label */
         #reset-label {
             position: fixed;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
             z-index: 100;
             font-family: var(--font-sinhala);
@@ -364,14 +447,30 @@
         }
 
         @media (max-width: 480px) {
-            .btn-group { flex-direction: column; align-items: center; }
-            .btn { width: 100%; }
-            .gallery-title { font-size: 2rem; }
-            .quote-text { font-size: 1.1rem; }
-            .mystery-card { padding: 30px 20px; }
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .gallery-title {
+                font-size: 2rem;
+            }
+
+            .quote-text {
+                font-size: 1.1rem;
+            }
+
+            .mystery-card {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="overlay"></div>
@@ -383,10 +482,12 @@
     <button class="back-to-home" id="gallery-close" style="display:none;" onclick="hideGallery()">BACK ❤️</button>
 
     <div class="main-container" id="main-view">
+        <div class="silhouette-overlay"></div>
         <div class="enchanted-heart" id="heart-btn" onclick="revealLove()">
             <div class="heart-aura"></div>
             <svg viewBox="0 0 24 24">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                <path
+                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
             </svg>
         </div>
         <p class="instruction" id="hint-text">TOUCH THE HEART TO FEEL THE LOVE</p>
@@ -397,7 +498,9 @@
             <p class="signature">🌹 සතුට බෙදාගන්න... ❤️</p>
             <div class="btn-group">
                 <button class="btn" onclick="showGallery()">Wishes Gallery ✨</button>
-                <button class="btn" id="close-btn" style="background: transparent; border: 1px solid rgba(255,255,255,0.2);" onclick="resetView()">ආදරය සුරකින්න</button>
+                <button class="btn" id="close-btn"
+                    style="background: transparent; border: 1px solid rgba(255,255,255,0.2);" onclick="resetView()">ආදරය
+                    සුරකින්න</button>
             </div>
         </div>
     </div>
@@ -419,7 +522,7 @@
         const toast = document.getElementById('toast');
         const typedContainer = document.getElementById('typed-text');
         const resetLabel = document.getElementById('reset-label');
-        
+
         const fullMessage = "ජීවිතයේ අපට මුණගැසෙන වටිනාම සහ සුන්දරම තෑග්ග ආදරයයි. ඒ ආදරය තුළ තියෙන බැඳීම, සතුට සහ ආරක්ෂාව අපේ ලෝකයම ලස්සන කරනවා. ඔබේ ආදරණීයයා වෙනුවෙනුත් හදවතේ ඇති ඒ අසීමිත සෙනෙහස, අලුත් සංකල්පයකින් අද ඔහුට/ඇයට පවසන්න.";
 
         const romanticWishes = [
@@ -489,10 +592,10 @@
             document.body.classList.add('dark-mode');
             card.style.opacity = '0';
             card.style.transform = 'translateY(20px) scale(0.9)';
-            
+
             // Generate heart points once
             generateHeartPoints();
-            
+
             // Show special label
             setTimeout(() => {
                 resetLabel.style.opacity = '1';
@@ -505,16 +608,16 @@
                 document.body.classList.remove('dark-mode');
                 resetLabel.style.opacity = '0';
                 resetLabel.style.transform = 'translate(-50%, -50%) scale(1)';
-                
+
                 card.classList.remove('active');
                 revealCircle.classList.remove('active');
                 typedContainer.textContent = "";
                 clearTimeout(typingInterval);
-                
-                setTimeout(() => { 
-                    heartBtn.style.transform = 'scale(1) rotate(0deg)'; 
-                    heartBtn.style.opacity = '1'; 
-                    hintText.style.opacity = '1'; 
+
+                setTimeout(() => {
+                    heartBtn.style.transform = 'scale(1) rotate(0deg)';
+                    heartBtn.style.opacity = '1';
+                    hintText.style.opacity = '1';
                 }, 500);
             }, 6000);
         }
@@ -555,31 +658,31 @@
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; if(isSpecialMode) generateHeartPoints(); }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; if (isSpecialMode) generateHeartPoints(); }
         window.addEventListener('resize', resize);
         resize();
 
         class Particle {
-            constructor() { 
-                this.reset(); 
+            constructor() {
+                this.reset();
             }
-            reset() { 
-                this.x = Math.random() * canvas.width; 
-                this.y = (Math.random() * canvas.height); 
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = (Math.random() * canvas.height);
                 this.size = Math.random() * 2 + 0.5; // Smaller dots like antigravity
-                this.speedY = Math.random() * -1 - 0.2; 
-                this.speedX = Math.random() * 0.5 - 0.25; 
-                this.opacity = Math.random() * 0.6 + 0.2; 
+                this.speedY = Math.random() * -1 - 0.2;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.6 + 0.2;
                 this.color = Math.random() > 0.3 ? '#ff4a6e' : '#ffffff';
                 this.targetPoint = null;
             }
-            update() { 
+            update() {
                 if (isSpecialMode && heartPoints.length > 0) {
                     // Find a random point to stick to if not already assigned
                     if (!this.targetPoint) {
                         this.targetPoint = heartPoints[Math.floor(Math.random() * heartPoints.length)];
                     }
-                    
+
                     // Move towards target
                     const dx = this.targetPoint.x - this.x;
                     const dy = this.targetPoint.y - this.y;
@@ -589,48 +692,49 @@
                     this.size = 1.5;
                 } else {
                     this.targetPoint = null;
-                    this.y += this.speedY; 
-                    this.x += this.speedX; 
+                    this.y += this.speedY;
+                    this.x += this.speedX;
                     if (this.y < -10) {
                         this.y = canvas.height + 10;
                         this.x = Math.random() * canvas.width;
                     }
                 }
             }
-            draw() { 
-                ctx.globalAlpha = this.opacity; 
-                ctx.fillStyle = this.color; 
+            draw() {
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
                 ctx.shadowBlur = isSpecialMode ? 10 : 0;
                 ctx.shadowColor = this.color;
-                ctx.beginPath(); 
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); 
-                ctx.fill(); 
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
                 ctx.shadowBlur = 0;
             }
         }
 
-        function animate() { 
-            ctx.clearRect(0, 0, canvas.width, canvas.height); 
-            particles.forEach(p => { 
-                p.update(); 
-                p.draw(); 
-            }); 
-            requestAnimationFrame(animate); 
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
         }
-        
+
         // Create more particles for the constellation effect
         for (let i = 0; i < 250; i++) particles.push(new Particle());
         animate();
 
         function createBurstOnHeart() {
-            for(let i=0; i<30; i++) {
+            for (let i = 0; i < 30; i++) {
                 const p = new Particle();
                 p.x = canvas.width / 2; p.y = canvas.height / 2;
                 p.speedY = (Math.random() - 0.5) * 10; p.speedX = (Math.random() - 0.5) * 10;
                 particles.push(p);
-                setTimeout(() => { const idx = particles.indexOf(p); if(idx > -1) particles.splice(idx, 1); }, 2000);
+                setTimeout(() => { const idx = particles.indexOf(p); if (idx > -1) particles.splice(idx, 1); }, 2000);
             }
         }
     </script>
 </body>
+
 </html>
